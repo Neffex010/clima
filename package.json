@@ -1,0 +1,15 @@
+{
+  "name": "clima-global",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Clima global: clima actual, pronóstico y estadísticas climáticas históricas de cualquier ciudad del mundo.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}
