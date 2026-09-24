@@ -72,7 +72,18 @@ export class SearchBar extends BaseComponent {
     this.setPending(false);
     this.results = results;
     if (results.length) this.renderResults();
-    else this.close();
+    else this.renderEmpty(query);
+  }
+
+  renderEmpty(query) {
+    clearNode(this.listbox);
+    const item = createElement('li', {
+      className: 'search-item search-item-empty',
+      text: `Sin resultados para «${query}»`,
+      attrs: { role: 'option', 'aria-selected': 'false' }
+    });
+    this.listbox.appendChild(item);
+    this.open(true);
   }
 
   setPending(pending) {

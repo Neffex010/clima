@@ -88,12 +88,24 @@ export class App {
   renderShell() {
     this.root.innerHTML = `
       <header class="app-header">
-        <nav class="app-nav" aria-label="Navegación principal">
-          <span class="brand">Clima Global</span>
-          <div class="nav-links">
-            <button class="nav-link is-active" type="button" data-view="home">Inicio</button>
-            <button class="nav-link" type="button" data-view="climate">Clima histórico</button>
+        <div class="app-nav">
+          <div class="brand">
+            <span class="brand-mark" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <circle cx="12" cy="12" r="4.4"/>
+                <path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M4.9 19.1l1.9-1.9M17.2 6.8l1.9-1.9"/>
+              </svg>
+            </span>
+            <span class="brand-text">Clima<em>Global</em></span>
           </div>
+          <div class="masthead-meta">
+            <span class="masthead-kicker">Boletín meteorológico</span>
+            <time class="masthead-date" id="masthead-date"></time>
+          </div>
+        </div>
+        <nav class="nav-links" aria-label="Navegación principal">
+          <button class="nav-link is-active" type="button" data-view="home"><span class="nav-num">01</span>El tiempo ahora</button>
+          <button class="nav-link" type="button" data-view="climate"><span class="nav-num">02</span>Clima histórico</button>
         </nav>
         <div id="search-bar"></div>
       </header>
@@ -104,6 +116,18 @@ export class App {
       <div id="spinner"></div>
       <div id="toasts"></div>
     `;
+
+    const dateEl = qs('#masthead-date', this.root);
+    if (dateEl) {
+      dateEl.textContent = new Intl.DateTimeFormat('es-ES', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      })
+        .format(new Date())
+        .replace(/\./g, '')
+        .toUpperCase();
+    }
   }
 
   bindNavigation() {

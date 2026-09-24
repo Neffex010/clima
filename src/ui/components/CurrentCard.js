@@ -31,11 +31,14 @@ export class CurrentCard extends BaseComponent {
     }
 
     const current = bundle.current;
+    const tempText =
+      current.temperature != null ? String(Math.round(current.temperature)) : '--';
 
     this.root.innerHTML = `
       <article class="card current-card">
         <header class="current-head">
           <div>
+            <span class="current-kicker">Estación</span>
             <h2 class="current-place">${escapeHtml(location.name)}</h2>
             <p class="current-sub">${escapeHtml([location.admin1, location.country].filter(Boolean).join(', '))}</p>
             <p class="current-date">${formatDateLong(current.time)}</p>
@@ -43,7 +46,7 @@ export class CurrentCard extends BaseComponent {
           <div class="current-icon" aria-hidden="true">${weatherIcon(current.weatherCode, 72)}</div>
         </header>
         <div class="current-main">
-          <span class="current-temp">${formatTemperature(current.temperature)}</span>
+          <span class="current-temp${current.temperature == null ? ' is-na' : ''}">${tempText}</span>
           <span class="current-desc">${escapeHtml(capitalize(weatherLabel(current.weatherCode)))}</span>
         </div>
         <dl class="current-metrics">

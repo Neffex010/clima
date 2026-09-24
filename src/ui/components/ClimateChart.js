@@ -58,8 +58,8 @@ export class ClimateChart extends BaseComponent {
     const { width, height } = this.cssPixels();
     const ctx = this.ctx;
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '14px system-ui, sans-serif';
+    ctx.fillStyle = '#5a626e';
+    ctx.font = '12px "IBM Plex Mono", ui-monospace, monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(
@@ -87,17 +87,17 @@ export class ClimateChart extends BaseComponent {
 
     this.drawGrid(ctx, width, height, plotHeight, minTemp, maxTemp, span);
     this.drawPrecipitation(ctx, records, x, plotWidth, plotHeight);
-    this.drawSeries(ctx, records, x, y, 'tempMax', '#38bdf8');
-    this.drawSeries(ctx, records, x, y, 'tempMin', '#818cf8');
+    this.drawSeries(ctx, records, x, y, 'tempMax', '#cf4d17');
+    this.drawSeries(ctx, records, x, y, 'tempMin', '#0d7a6c');
     this.drawTicks(ctx, records, x, height);
     this.drawLegend(ctx, width);
   }
 
   drawGrid(ctx, width, height, plotHeight, minTemp, maxTemp, span) {
     const steps = 4;
-    ctx.strokeStyle = 'rgba(148, 163, 184, 0.16)';
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '11px ui-monospace, monospace';
+    ctx.strokeStyle = 'rgba(26, 35, 48, 0.14)';
+    ctx.fillStyle = '#5a626e';
+    ctx.font = '11px "IBM Plex Mono", ui-monospace, monospace';
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
     ctx.lineWidth = 1;
@@ -121,7 +121,7 @@ export class ClimateChart extends BaseComponent {
     const bandBottom = PAD.top + plotHeight;
     const barWidth = Math.max(2, (plotWidth / records.length) * 0.5);
 
-    ctx.fillStyle = 'rgba(96, 165, 250, 0.35)';
+    ctx.fillStyle = 'rgba(47, 111, 179, 0.3)';
     records.forEach((record, i) => {
       const barHeight = ((record.precipitation ?? 0) / maxPrecip) * (bandBottom - bandTop);
       ctx.fillRect(x(i) - barWidth / 2, bandBottom - barHeight, barWidth, barHeight);
@@ -157,8 +157,8 @@ export class ClimateChart extends BaseComponent {
 
   drawTicks(ctx, records, x, height) {
     const every = Math.max(1, Math.ceil(records.length / 6));
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '10px system-ui, sans-serif';
+    ctx.fillStyle = '#5a626e';
+    ctx.font = '10px "IBM Plex Mono", ui-monospace, monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
 
@@ -170,11 +170,11 @@ export class ClimateChart extends BaseComponent {
 
   drawLegend(ctx, width) {
     const items = [
-      { color: '#38bdf8', label: 'Máxima' },
-      { color: '#818cf8', label: 'Mínima' },
-      { color: 'rgba(96, 165, 250, 0.85)', label: 'Precipitación' }
+      { color: '#cf4d17', label: 'Máxima' },
+      { color: '#0d7a6c', label: 'Mínima' },
+      { color: 'rgba(47, 111, 179, 0.9)', label: 'Precipitación' }
     ];
-    ctx.font = '11px system-ui, sans-serif';
+    ctx.font = '11px "IBM Plex Mono", ui-monospace, monospace';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
     ctx.lineWidth = 3;
@@ -186,7 +186,7 @@ export class ClimateChart extends BaseComponent {
       ctx.moveTo(cursor, PAD.top / 2);
       ctx.lineTo(cursor + 18, PAD.top / 2);
       ctx.stroke();
-      ctx.fillStyle = '#94a3b8';
+      ctx.fillStyle = '#5a626e';
       ctx.fillText(item.label, cursor + 24, PAD.top / 2);
       cursor += 24 + ctx.measureText(item.label).width + 18;
     });
