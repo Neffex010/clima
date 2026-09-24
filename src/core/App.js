@@ -16,7 +16,6 @@ import { Spinner } from '../ui/components/Spinner.js';
 import { Toast } from '../ui/components/Toast.js';
 import { HomeView } from '../ui/views/HomeView.js';
 import { ClimateView } from '../ui/views/ClimateView.js';
-import { ENV } from '../config/env.js';
 import { qs } from '../utils/dom.js';
 
 export class App {
@@ -82,7 +81,7 @@ export class App {
     this.views.climate.mount(qs('#climate-view', this.root));
 
     this.bindNavigation();
-    this.controllers.search.selectDefault(ENV.defaultCity);
+    this.controllers.search.detectLocation();
   }
 
   renderShell() {
