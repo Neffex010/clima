@@ -23,20 +23,4 @@ export class GeocodingRepository {
 
     return (data.results ?? []).map((result) => Location.fromGeocodingResult(result));
   }
-
-  async searchByCoordinates(latitude, longitude) {
-    if (latitude == null || longitude == null) return [];
-
-    const data = await this.apiClient.get(this.url, {
-      params: {
-        latitude,
-        longitude,
-        count: 1,
-        language: API_CONFIG.geocoding.language,
-        format: 'json'
-      }
-    });
-
-    return (data.results ?? []).map((result) => Location.fromGeocodingResult(result));
-  }
 }

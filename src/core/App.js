@@ -2,6 +2,7 @@ import { EventBus } from './EventBus.js';
 import { Store } from './Store.js';
 import { ApiClient } from './ApiClient.js';
 import { GeocodingRepository } from '../data/GeocodingRepository.js';
+import { ReverseGeocodingRepository } from '../data/ReverseGeocodingRepository.js';
 import { ForecastRepository } from '../data/ForecastRepository.js';
 import { ArchiveRepository } from '../data/ArchiveRepository.js';
 import { LocationService } from '../services/LocationService.js';
@@ -34,7 +35,10 @@ export class App {
     const apiClient = new ApiClient();
 
     this.services = {
-      location: new LocationService(new GeocodingRepository(apiClient)),
+      location: new LocationService(
+        new GeocodingRepository(apiClient),
+        new ReverseGeocodingRepository(apiClient)
+      ),
       weather: new WeatherService(new ForecastRepository(apiClient)),
       climate: new ClimateService(new ArchiveRepository(apiClient)),
       export: new ExportService()

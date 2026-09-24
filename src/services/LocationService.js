@@ -1,6 +1,7 @@
 export class LocationService {
-  constructor(geocodingRepository) {
+  constructor(geocodingRepository, reverseGeocodingRepository) {
     this.repository = geocodingRepository;
+    this.reverseRepository = reverseGeocodingRepository;
   }
 
   async search(query) {
@@ -13,7 +14,8 @@ export class LocationService {
   }
 
   async geocodeByCoordinates(latitude, longitude) {
-    const results = await this.repository.searchByCoordinates(latitude, longitude);
+    if (!this.reverseRepository) return null;
+    const results = await this.reverseRepository.searchByCoordinates(latitude, longitude);
     return results[0] ?? null;
   }
 }
