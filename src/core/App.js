@@ -3,6 +3,7 @@ import { Store } from './Store.js';
 import { ApiClient } from './ApiClient.js';
 import { GeocodingRepository } from '../data/GeocodingRepository.js';
 import { ReverseGeocodingRepository } from '../data/ReverseGeocodingRepository.js';
+import { IpGeocodingRepository } from '../data/IpGeocodingRepository.js';
 import { ForecastRepository } from '../data/ForecastRepository.js';
 import { ArchiveRepository } from '../data/ArchiveRepository.js';
 import { LocationService } from '../services/LocationService.js';
@@ -37,7 +38,8 @@ export class App {
     this.services = {
       location: new LocationService(
         new GeocodingRepository(apiClient),
-        new ReverseGeocodingRepository(apiClient)
+        new ReverseGeocodingRepository(apiClient),
+        new IpGeocodingRepository(apiClient)
       ),
       weather: new WeatherService(new ForecastRepository(apiClient)),
       climate: new ClimateService(new ArchiveRepository(apiClient)),

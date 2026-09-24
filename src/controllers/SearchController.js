@@ -31,40 +31,52 @@ export class SearchController {
   async detectLocation() {
     this.events.emit('app:toast', { type: 'info', message: 'Detectando tu ubicación…' });
 
-    if (!navigator.geolocation) {
-      this.events.emit('app:toast', {
-        type: 'warning',
-        message: 'Tu navegador no soporta geolocalización. Usando ciudad por defecto.'
-      });
-      return this.selectDefault();
+    let location = await this.detectPrecise();
+    if (!location) {
+      location = await this.detectByIp();
     }
 
+    if (location) return this.select(location);
+
+    this.events.emit('app:toast', {
+      type: 'warning',
+      message: 'No se pudo detectar tu ubicación. Usando ciudad por defecto.'
+    });
+    return this.selectDefault();
+  }
+
+  async detectPrecise() {
+    if (!navigator.geolocation) return null;
     let position;
     try {
       position = await this.getCurrentPosition();
     } catch {
-      this.events.emit('app:toast', {
-        type: 'warning',
-        message: 'No se pudo acceder a tu ubicación. Usando ciudad por defecto.'
-      });
-      return this.selectDefault();
+      return null;
     }
-
     try {
-      const location = await this.locationService.geocodeByCoordinates(
+      return await this.locationService.geocodeByCoordinates(
         position.coords.latitude,
         position.coords.longitude
       );
+    } catch {
+      return null;
+    }
+  }
+
+  async detectByIp() {
+    try {
+      const location = await this.locationService.getLocationByIp();
       if (location) {
-        this.select(location);
-      } else {
-        this.events.emit('app:toast', { type: 'info', message: 'No se encontró tu zona. Usando ciudad por defecto.' });
-        return this.selectDefault();
+        this.events.emit('app:toast', {
+          type: 'info',
+          message: 'Ubicación aproximada detectada.'
+        });
+        return location;
       }
     } catch {
-      this.events.emit('app:toast', { type: 'info', message: 'Usando ciudad por defecto.' });
-      return this.selectDefault();
+      /* no existe red de respaldo */
     }
+    return null;
   }
 
   getCurrentPosition() {
